@@ -7,14 +7,17 @@ public class Game {
 	private final Player player;
 	private final Computer computer;
 
-	public Game(final Player player) {
+	private Game(final Player player) {
 		this.player = player;
-		this.computer = new Computer();
+		this.computer = Computer.getInstance();
+	}
+
+	public static Game getInstance(final Player player) {
+		return new Game(player);
 	}
 
 	public void start() {
 		List<Integer> playerBaseballNumber;
-
 		do {
 			System.out.print("숫자를 입력해주세요 : ");
 			playerBaseballNumber = player.getBaseballNumber();

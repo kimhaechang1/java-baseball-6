@@ -9,24 +9,19 @@ public class GameManager {
 	private final Player player;
 
 	private GameManager() {
-		player = new Player();
+		player = Player.getInstance();
 		do {
 			playGame();
 		} while (checkQuit());
 	}
 
-	private static GameManager instance;
-
 	public static GameManager getInstance() {
-		if (instance == null) {
-			instance = new GameManager();
-		}
-		return instance;
+		return new GameManager();
 	}
 
 	private void playGame() {
 
-		Game game = new Game(player);
+		Game game = Game.getInstance(player);
 		game.start();
 	}
 

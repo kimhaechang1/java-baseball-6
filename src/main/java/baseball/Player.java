@@ -9,8 +9,10 @@ import camp.nextstep.edu.missionutils.Console;
 
 public class Player {
 
-	public Player() {
+	private Player() {}
 
+	public static Player getInstance() {
+		return new Player();
 	}
 
 	public List<Integer> getBaseballNumber() {

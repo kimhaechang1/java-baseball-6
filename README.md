@@ -1,6 +1,6 @@
 # 미션 - 숫자 야구
 
-## 기능 명세 8/25
+## 기능 명세 8/25 및 구현하면서 생각한것들
 
 - 어떤 객체들이 서로 의사소통하는가?
     - Computer, Game, GameManager, Player
@@ -19,6 +19,25 @@
             - 사실 Game의 생명주기와 Computer의 생명주기는 현재 같이 움직인다. 그리고 Computer가 Game과 달리 특별하게 행동하는것도 없다.
         - Enum들을 하나의 java파일로 둘 이유가 있을까?
             - 특정 클래스에 종속적이라면 내부로 구현하자.
+            - 
+## 리펙토링 8/27
+
+- 수정사항
+  - 종속적 enum들 nested enum으로 변경
+    - 특정 클래스에 상태를 나타내는 목적으로 사용되는 enum들이라면 nested로 변경하는것이 좋다.
+      - BaseballState -> Computer, GameManagerState -> GameManager 
+    - 테스트코드를 함께 실행하면 두번째 테스트코드가 실패하는 경우가 있음
+      - 원인은 밝히지 못했으나,,, 현재로서는 싱글톤이었던 GameManager에 문제가 있음을 판단하여 싱글톤 로직을 제거함
+        - 제거하는 김에 다른 클래스들의 인스턴스 생성방식도 기존의 생성자에서 가독성을 위해 정적 팩토리 메소드로 변경
+    - StreamAPI 적극활용
+      - Computer 클래스의 pickComputerCards 메소드 내부 for-loop에서 StreamAPI로 가독성을 높혀보자.
+    
+
+
+
+    
+
+
 
 
 ## 🔍 진행 방식

@@ -16,9 +16,13 @@ public class Computer {
 	private final List<Integer> myCards;
 	private final Set<Integer> kindOfCards;
 
-	public Computer() {
+	private Computer() {
 		myCards = pickComputerCard();
 		kindOfCards = Collections.unmodifiableSet(new HashSet<>(myCards));
+	}
+
+	public static Computer getInstance() {
+		return new Computer();
 	}
 
 	private List<Integer> pickComputerCard() {
