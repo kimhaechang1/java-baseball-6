@@ -90,4 +90,6 @@ public class Computer {
 
 		System.out.println(msgBuilder);
 	}
+
+	private enum BaseballState { BALL, STRIKE, }
 }
