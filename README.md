@@ -1,5 +1,26 @@
 # 미션 - 숫자 야구
 
+## 기능 명세 8/25
+
+- 어떤 객체들이 서로 의사소통하는가?
+    - Computer, Game, GameManager, Player
+        - GameManager: 게임 클라이언트의 전반적인 동작을 담당하며, Game 객체와 Player 객체의 생성을 담당하고, 잘못된 입력에 대한 Exception 체크 및 어플리케이션 종료를 담당한다.
+        - Game: 하나의 게임의 시작과 종료를 담당하고, Player 객체를 소속시키고 Computer 객체 생성을 담당한다.
+        - Player: 사용자를 대변하는 객체로, 사용자로부터 적절한 입력을 받아서 validation 체크 후 입력값을 다른 객체(GameManager, Game 객체)로 전달한다.
+        - Computer: 컴퓨터를 대변하는 객체로, Game 객체에 의해 생성되며 생성과 동시에 Baseball 게임을 위한 숫자값 초기화 과정을 갖고, 사용자로 부터 받은 추측값과 대조를 하여 결과를 만들어 낸다.
+
+    - 피드백
+        - validate 메소드의 반환타입을 void로 두는것을 고려해봐라
+        - Computer 객체의 printResultMessage 의 복잡성을 해소시켜라
+        - StreamAPI를 사용하여 조금 더 가독성을 높혀보자.
+
+    - 개인적인 고민거리
+        - Game 객체와 Computer 객체가 분리될 필요가 있을까?
+            - 사실 Game의 생명주기와 Computer의 생명주기는 현재 같이 움직인다. 그리고 Computer가 Game과 달리 특별하게 행동하는것도 없다.
+        - Enum들을 하나의 java파일로 둘 이유가 있을까?
+            - 특정 클래스에 종속적이라면 내부로 구현하자.
+
+
 ## 🔍 진행 방식
 
 - 미션은 **기능 요구 사항, 프로그래밍 요구 사항, 과제 진행 요구 사항** 세 가지로 구성되어 있다.
