@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import camp.nextstep.edu.missionutils.Randoms;
 
@@ -26,15 +28,11 @@ public class Computer {
 	}
 
 	private List<Integer> pickComputerCard() {
-		List<Integer> temp = new ArrayList<>();
-		temp.add(Randoms.pickNumberInRange(1, 9));
-		while(temp.size() < 3){
-			int randomNumber = Randoms.pickNumberInRange(1, 9);
-			if (!temp.contains(randomNumber)) {
-				temp.add(randomNumber);
-			}
-		}
-		return Collections.unmodifiableList(temp);
+
+		return Stream.generate(() -> Randoms.pickNumberInRange(1, 9))
+				.distinct()
+				.limit(3)
+				.toList();
 	}
 
 	public boolean scoring(final List<Integer> playerNumbers) {
@@ -77,15 +75,15 @@ public class Computer {
 		StringBuilder msgBuilder = new StringBuilder();
 
 		if (ballCount > 0) {
-			msgBuilder.append(ballCount).append("볼");
+			msgBuilder.append(ballCount).append(BaseballState.BALL.name);
 		}
 
 		if (msgBuilder.length() > 0) {
 			msgBuilder.append(" ");
 		}
 
-		if (strikeCount != 0) {
-			msgBuilder.append(strikeCount).append("스트라이크");
+		if (strikeCount > 0) {
+			msgBuilder.append(strikeCount).append(BaseballState.STRIKE.name);
 		}
 
 		if (msgBuilder.length() == 0) {
@@ -95,5 +93,15 @@ public class Computer {
 		System.out.println(msgBuilder);
 	}
 
-	private enum BaseballState { BALL, STRIKE, }
+	private enum BaseballState {
+		BALL("볼"),
+		STRIKE("스트라이크")
+		;
+
+		private String name;
+
+		private BaseballState(String name) {
+			this.name = name;
+		}
+	}
 }
