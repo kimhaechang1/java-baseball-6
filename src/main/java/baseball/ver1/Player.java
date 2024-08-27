@@ -1,4 +1,4 @@
-package baseball;
+package baseball.ver1;
 
 import java.util.Collections;
 import java.util.List;
