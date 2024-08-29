@@ -1,6 +1,6 @@
 # 미션 - 숫자 야구
 
-## 기능 명세 8/25 및 구현하면서 생각한것들
+## 기능 명세 및 구현하면서 생각한것들 8/25: ver1
 
 - 어떤 객체들이 서로 의사소통하는가?
     - Computer, Game, GameManager, Player
@@ -20,7 +20,7 @@
         - Enum들을 하나의 java파일로 둘 이유가 있을까?
             - 특정 클래스에 종속적이라면 내부로 구현하자.
             - 
-## 리펙토링 8/27
+## 리펙토링 MVC 아키텍쳐 적용 8/27: ver2
 
 - 수정사항
   - 종속적 enum들 nested enum으로 변경
@@ -56,6 +56,44 @@
       - 적절히 가공된 입력값에 따라 적절한 비즈니스 모델 객체를 호출하는 Controller
         - Controller에서는 View에서 넘겨받은 데이터에 대해서 비즈니스 모델에 적합한지에 관한 Validation을 진행한다.
       - Model은 비즈니스 모델로 게임 진행에 있어서 제공되는 갖가지 메소드들을 사용한다.
+
+## 리펙토링 레이어에 따른 책임분리 8/28
+
+<a href="https://murphymoon.t   istory.com/entry/%EC%9A%B0%EC%95%84%ED%95%9C-%ED%85%8C%ED%81%AC-MVC-%EB%A6%AC%EB%B7%B0-%EB%A0%88%EC%9D%B4%EC%96%B4-MVC-%ED%8C%A8%ED%84%B4-5%EB%A0%88%EC%9D%B4%EC%96%B4">참고한 블로그 MVC</a>
+
+<a href="https://umbum.dev/1208/">레이어간의 Model과 DTO 변환 책임</a>
+
+<a href="https://umbum.dev/1066/">Controller와 Service 책임 나누기</a>
+
+
+- VO와 DTO의 적절한 사용처 with MVC
+- 위 정리글을 요약하자면 Model은 비즈니스 로직처리가 핵심이고 View는 사용자와 상호작용하는 UI가 핵심이고 Controller는 둘 사이에 중간 제어역할을 수행한다.
+    - 레이어드로 보자면 View와 Controller는 둘다 표현계층인데, 진짜 UI 보여지는것은 View, 그밖에 다른 객체로부터 받은 데이터를 가지고 적절히 View를 호출하는것은 Controller라고 볼 수 있다.
+
+- 두 레이어 사이에 오가는 데이터 즉, Data Transfer Object가 필요하고, Business에서 사용하는 오브젝트는 엄밀하게는 Persistence Layer도 나눠야하지만 현재 데이터의 영구보관 속성은 필요없으므로 entity 개념은 필요하지않고 VO개념정도로 Business 로직에서 수행해야할 것 같다.
+- 결과적으로 Controller는 Model에서 반환받은 VO를 DTO로 변환하여 View에 전달하면 되는것이다.
+  - 그럼 VOtoDTO가 각 VO별로 존재하면 안되는감?
+    - 기존에 VO에 넣게 되면 값 객체로서의 역할 뿐만 아니라 DTO로의 변환의 책임도 수행해야 한다.
+  - Controller에서는 어떨까?
+    - Controller의 책임은 Model과 View의 중간제어자 로서, 요청에 따른 적절한 View를 반환하거나 혹은 Model을 적절히 호출하여 View와 Model 반환이 결합된 결과를 반환한다.
+      - 여기서 느낀점은 어떤 View를 고를지 선택한다는것, 즉 View는 매우 단순해야하며 어떤 논리적인 로직을 가져선 안될것 같다.
+  - Service에서는 어떨까?
+    - 서비스레이어의 역할은 해당 기능을 제공하기 위해 각 도메인 모델에서 적절히 데이터를 가공하는 순서를 보장해주는 역할을 수행한다.
+    - 해당 어플리케이션 기능을 수행하기 위해 각 도메인들이 맡아야할 기능들을 수행하는걸 관장하고, 그 순서를 보장하게 하는것이 핵심이다.
+    - 엄밀하게 따지면 Controller는 표현계층 소속이라는것이 위의 글에 있으므로, Service가 DTO를 반환하는것은 나쁘지않은 일이다.
+  - 그럼 DTO는 어느 패키지에?
+    - GPT말로는 Controller나 Model등에 각각 있으면 좋다고 하는데, 이건 너무 복잡한것 같다.
+    - 결과적으로 계층별로 옮겨다니는것이 DTO이므로 각 계층별로 가지고있는것이 좋아보인다.
+
+- 결론적으로 패키지의 구조를 레이어별로 나누고, Domain 레이어에서 내려오는 데이터는 VO로 관리하고, 각 레이어별로 DTO를 관리한다.
+  - Controller와 View를 presentation 패키지로 넣는다.
+  - Service를 service 패키지에 넣는다. Service는 각 도메인별 수행에 대한 순서를 담당한다.
+  - Baseball과 같은 VO는 서비스 레이어의 비즈니스 로직을 위하여 존재하기에 domain 패키지에 존재한다.
+  
+    
+  
+      
+
 
 ## 🔍 진행 방식
 

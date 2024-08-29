@@ -1,4 +1,4 @@
-package baseball.ver2.model.Service;
+package baseball.ver2.model.service;
 
 import baseball.ver2.model.Baseball;
 import baseball.ver2.model.Score;

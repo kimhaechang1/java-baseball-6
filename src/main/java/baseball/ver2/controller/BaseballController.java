@@ -2,7 +2,7 @@ package baseball.ver2.controller;
 
 import baseball.ver2.model.Baseball;
 import baseball.ver2.model.Score;
-import baseball.ver2.model.Service.BaseballService;
+import baseball.ver2.model.service.BaseballService;
 import baseball.ver2.view.InputView;
 import baseball.ver2.view.PrintView;
 
